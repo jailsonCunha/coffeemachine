@@ -1,6 +1,7 @@
 package br.ufpb.br.aps.coffeemachine.impl;
 
 import br.ufpb.dce.aps.coffeemachine.CoffeeMachine;
+import br.ufpb.dce.aps.coffeemachine.CoffeeMachineException;
 import br.ufpb.dce.aps.coffeemachine.Coin;
 import br.ufpb.dce.aps.coffeemachine.ComponentsFactory;
 
@@ -15,9 +16,15 @@ public class MyCoffeeMachine implements CoffeeMachine{
 	}
 
 	public void insertCoin(Coin dime) {
-		this.centavos += dime.getValue() % 100;
-		this.dolar += dime.getValue() / 100;
-		this.factory.getDisplay().info("Total: US$ "+ this.dolar+"."+ this.centavos);
+		try {
+			
+			this.centavos += dime.getValue() % 100;
+			this.dolar += dime.getValue() / 100;
+			this.factory.getDisplay().info("Total: US$ "+ this.dolar+"."+ this.centavos);
+			
+		} catch (NullPointerException e) {
+			throw new CoffeeMachineException("Moeda não inserida");
+		}
 				
 	}
 
