@@ -4,6 +4,7 @@ import br.ufpb.dce.aps.coffeemachine.CoffeeMachine;
 import br.ufpb.dce.aps.coffeemachine.CoffeeMachineException;
 import br.ufpb.dce.aps.coffeemachine.Coin;
 import br.ufpb.dce.aps.coffeemachine.ComponentsFactory;
+import br.ufpb.dce.aps.coffeemachine.Messages;
 
 public class MyCoffeeMachine implements CoffeeMachine{
 	
@@ -31,6 +32,10 @@ public class MyCoffeeMachine implements CoffeeMachine{
 	public void cancel() {
 		if(this.dolar == 0 && this.centavos == 0){
 			throw new CoffeeMachineException("Moeda não inserida");
+		}else{
+			this.factory.getDisplay().warn(Messages.CANCEL_MESSAGE);
+			this.factory.getCashBox().release(Coin.halfDollar);
+			this.factory.getDisplay().info(Messages.INSERT_COINS_MESSAGE);
 		}
 	}
 
