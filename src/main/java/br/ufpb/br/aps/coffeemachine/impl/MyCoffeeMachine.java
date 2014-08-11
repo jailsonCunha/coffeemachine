@@ -67,7 +67,12 @@ public class MyCoffeeMachine implements CoffeeMachine{
 		}else{
 			
 			if(drink == Drink.BLACK_SUGAR){
-				this.factory.getSugarDispenser().contains(0.1);
+				if(!this.factory.getSugarDispenser().contains(0.1)){
+					this.factory.getDisplay().warn(Messages.OUT_OF_SUGAR);
+					this.factory.getCashBox().release(Coin.halfDollar);
+					this.factory.getDisplay().info(Messages.INSERT_COINS);
+					return;
+				}
 			}
 			
 			this.factory.getDisplay().info(Messages.MIXING);
