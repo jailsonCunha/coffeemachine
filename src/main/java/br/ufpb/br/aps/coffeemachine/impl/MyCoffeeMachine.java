@@ -37,6 +37,8 @@ public class MyCoffeeMachine implements CoffeeMachine{
 			this.factory.getCashBox().release(Coin.halfDollar);
 			this.factory.getCashBox().release(Coin.nickel);
 			this.factory.getCashBox().release(Coin.penny);
+			this.factory.getCashBox().release(Coin.quarter);
+			this.factory.getCashBox().release(Coin.quarter);
 			this.factory.getDisplay().info(Messages.INSERT_COINS_MESSAGE);
 		}
 	}
