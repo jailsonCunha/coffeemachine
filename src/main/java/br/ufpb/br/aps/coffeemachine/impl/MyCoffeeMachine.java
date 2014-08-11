@@ -1,5 +1,7 @@
 package br.ufpb.br.aps.coffeemachine.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import br.ufpb.dce.aps.coffeemachine.CoffeeMachine;
 import br.ufpb.dce.aps.coffeemachine.CoffeeMachineException;
 import br.ufpb.dce.aps.coffeemachine.Coin;
@@ -11,7 +13,7 @@ public class MyCoffeeMachine implements CoffeeMachine{
 	
 	private int centavos, dolar;
 	private ComponentsFactory factory;
-	private Coin dime;
+	private List<Coin> dime = new ArrayList<Coin>();
 
 	public MyCoffeeMachine(ComponentsFactory factory) {
 		this.factory = factory;
@@ -21,7 +23,7 @@ public class MyCoffeeMachine implements CoffeeMachine{
 	public void insertCoin(Coin dime) {
 		try {
 			
-			this.dime = dime;
+			this.dime.add(dime);
 			this.centavos += dime.getValue() % 100;
 			this.dolar += dime.getValue() / 100;
 			this.factory.getDisplay().info("Total: US$ "+ this.dolar+"."+ this.centavos);
@@ -33,31 +35,24 @@ public class MyCoffeeMachine implements CoffeeMachine{
 	}
 
 	public void cancel() {
-		if (this.dime != null) {
-
-			this.factory.getDisplay().warn(Messages.CANCEL);
-
-			if (this.dime == Coin.halfDollar) {
-
-				this.factory.getCashBox().release(Coin.halfDollar);
-
-			} else if (this.dime == Coin.nickel) {
-
-				this.factory.getCashBox().release(Coin.nickel);
-				this.factory.getCashBox().release(Coin.penny);
-
-			} else if (this.dime == Coin.quarter) {
-				
-				this.factory.getCashBox().release(Coin.quarter);
-				this.factory.getCashBox().release(Coin.quarter);
-				
-			}
+		if (this.dolar == 0 && this.centavos == 0) {
 			
-			this.factory.getDisplay().info(Messages.INSERT_COINS);
-
-		} else {
 			throw new CoffeeMachineException("Moeda não inserida");
+			
+		}else{
+			this.factory.getDisplay().warn(Messages.CANCEL);
+			
+			for(Coin ordenado : Coin.reverse()){
+				for(Coin moeda : this.dime){
+					if(ordenado == moeda){
+						this.factory.getCashBox().release(moeda);
+					}
+				}
+			}
 		}
+		
+		this.factory.getDisplay().info(Messages.INSERT_COINS);
+		
 	}
 
 	public void select(Drink drink) {
@@ -84,6 +79,7 @@ public class MyCoffeeMachine implements CoffeeMachine{
 		
 		this.factory.getDisplay().info(Messages.TAKE_DRINK);
 		this.factory.getDisplay().info(Messages.INSERT_COINS);
+		this.dime.clear();
 		
 	}
 
