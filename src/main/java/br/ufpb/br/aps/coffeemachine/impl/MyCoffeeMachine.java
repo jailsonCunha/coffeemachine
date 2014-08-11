@@ -4,6 +4,7 @@ import br.ufpb.dce.aps.coffeemachine.CoffeeMachine;
 import br.ufpb.dce.aps.coffeemachine.CoffeeMachineException;
 import br.ufpb.dce.aps.coffeemachine.Coin;
 import br.ufpb.dce.aps.coffeemachine.ComponentsFactory;
+import br.ufpb.dce.aps.coffeemachine.Drink;
 import br.ufpb.dce.aps.coffeemachine.Messages;
 
 public class MyCoffeeMachine implements CoffeeMachine{
@@ -33,14 +34,29 @@ public class MyCoffeeMachine implements CoffeeMachine{
 		if(this.dolar == 0 && this.centavos == 0){
 			throw new CoffeeMachineException("Moeda não inserida");
 		}else{
-			this.factory.getDisplay().warn(Messages.CANCEL_MESSAGE);
+			this.factory.getDisplay().warn(Messages.CANCEL);
 			this.factory.getCashBox().release(Coin.halfDollar);
 			this.factory.getCashBox().release(Coin.nickel);
 			this.factory.getCashBox().release(Coin.penny);
 			this.factory.getCashBox().release(Coin.quarter);
 			this.factory.getCashBox().release(Coin.quarter);
-			this.factory.getDisplay().info(Messages.INSERT_COINS_MESSAGE);
+			this.factory.getDisplay().info(Messages.INSERT_COINS);
 		}
+	}
+
+	public void select(Drink drink) {
+		this.factory.getCupDispenser().contains(1);
+		this.factory.getWaterDispenser().contains(0.1);
+		this.factory.getCoffeePowderDispenser().contains(0.1);
+		this.factory.getDisplay().info(Messages.MIXING);
+		this.factory.getCoffeePowderDispenser().release(0.2);
+		this.factory.getWaterDispenser().release(0.3);
+		this.factory.getDisplay().info(Messages.RELEASING);
+		this.factory.getCupDispenser().release(1);
+		this.factory.getDrinkDispenser().release(0.3);
+		this.factory.getDisplay().info(Messages.TAKE_DRINK);
+		this.factory.getDisplay().info(Messages.INSERT_COINS);
+		
 	}
 
 }
