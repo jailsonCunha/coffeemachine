@@ -15,8 +15,8 @@ public class MyCoffeeMachine implements CoffeeMachine{
 	}
 
 	public void insertCoin(Coin dime) {
-		this.centavos = dime.getValue() % 100;
-		this.dolar = dime.getValue() / 100;
+		this.centavos += dime.getValue() % 100;
+		this.dolar += dime.getValue() / 100;
 		this.factory.getDisplay().info("Total: US$ "+ this.dolar+"."+ this.centavos);
 				
 	}
