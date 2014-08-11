@@ -90,12 +90,20 @@ public class MyCoffeeMachine implements CoffeeMachine{
 				}
 			}
 			
+			if(drink == Drink.WHITE){
+				this.factory.getCreamerDispenser().contains(0.1);
+			}
+			
 			this.factory.getDisplay().info(Messages.MIXING);
 			this.factory.getCoffeePowderDispenser().release(0.1);
 			this.factory.getWaterDispenser().release(0.1);
 			
 			if(drink == Drink.BLACK_SUGAR){
 				this.factory.getSugarDispenser().release(0.1);
+			}
+			
+			if(drink == Drink.WHITE){
+				this.factory.getCreamerDispenser().release(0.1);
 			}
 			
 			this.factory.getDisplay().info(Messages.RELEASING);
