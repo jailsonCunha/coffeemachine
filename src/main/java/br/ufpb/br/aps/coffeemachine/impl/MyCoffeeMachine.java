@@ -2,6 +2,8 @@ package br.ufpb.br.aps.coffeemachine.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import br.ufpb.dce.aps.coffeemachine.CashBox;
 import br.ufpb.dce.aps.coffeemachine.CoffeeMachine;
 import br.ufpb.dce.aps.coffeemachine.CoffeeMachineException;
 import br.ufpb.dce.aps.coffeemachine.Coin;
@@ -14,6 +16,8 @@ public class MyCoffeeMachine implements CoffeeMachine{
 	private int centavos, dolar;
 	private ComponentsFactory factory;
 	private List<Coin> dime = new ArrayList<Coin>();
+	private CashBox cashBox;
+	private Coin[]escolherMoedas = Coin.reverse();
 
 	public MyCoffeeMachine(ComponentsFactory factory) {
 		this.factory = factory;
@@ -73,7 +77,9 @@ public class MyCoffeeMachine implements CoffeeMachine{
 			return;
 			
 		}
-				
+		
+	
+				this.liberandoTroco(centavos);
 		if(!this.factory.getCoffeePowderDispenser().contains(0.1)){
 			this.factory.getDisplay().warn(Messages.OUT_OF_COFFEE_POWDER);
 			this.factory.getCashBox().release(Coin.quarter);
@@ -115,6 +121,28 @@ public class MyCoffeeMachine implements CoffeeMachine{
 			this.dime.clear();			
 		}
 		
+	}
+	
+	private void escolhendoTroco(int change){
+		int moedas = change;
+		this.escolherMoedas = Coin.reverse();
+		for(Coin troco : this.escolherMoedas){
+			while(troco.getValue() <= moedas){
+				cashBox.count(troco);
+				moedas -= troco.getValue();
+				
+			}
+		}
+	}
+	
+	private void liberandoTroco(int change) {
+		this.escolherMoedas = Coin.reverse();
+		for(Coin troco : this.escolherMoedas){
+			while(troco.getValue() <= change){
+				cashBox.release(troco);
+				change -= troco.getValue();
+			}
+		}
 	}
 
 
