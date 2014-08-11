@@ -23,9 +23,15 @@ public class MyCoffeeMachine implements CoffeeMachine{
 			this.factory.getDisplay().info("Total: US$ "+ this.dolar+"."+ this.centavos);
 			
 		} catch (NullPointerException e) {
-			throw new CoffeeMachineException("Moeda não inserida");
+			throw new CoffeeMachineException("A moeda inserida foi nula");
 		}
 				
+	}
+
+	public void cancel() {
+		if(this.dolar == 0 && this.centavos == 0){
+			throw new CoffeeMachineException("Moeda não inserida");
+		}
 	}
 
 }
