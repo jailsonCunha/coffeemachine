@@ -35,6 +35,8 @@ public class MyCoffeeMachine implements CoffeeMachine{
 		}else{
 			this.factory.getDisplay().warn(Messages.CANCEL_MESSAGE);
 			this.factory.getCashBox().release(Coin.halfDollar);
+			this.factory.getCashBox().release(Coin.nickel);
+			this.factory.getCashBox().release(Coin.penny);
 			this.factory.getDisplay().info(Messages.INSERT_COINS_MESSAGE);
 		}
 	}
